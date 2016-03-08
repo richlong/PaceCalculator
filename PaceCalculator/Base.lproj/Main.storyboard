@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Calculator View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="CalculatorViewController" customModule="PaceCalculator" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +16,62 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ymh-nN-Wcs">
+                                <rect key="frame" x="140" y="87" width="320" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="snD-Nk-ANO"/>
+                                    <constraint firstAttribute="height" constant="28" id="uqp-wo-dEA"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Metric"/>
+                                    <segment title="Imperial"/>
+                                </segments>
+                            </segmentedControl>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Distance" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GUw-c2-tTa">
+                                <rect key="frame" x="140" y="147" width="320" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="04r-jd-rUM"/>
+                                    <constraint firstAttribute="height" constant="30" id="ahf-gu-raZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fhn-la-r0t">
+                                <rect key="frame" x="140" y="195" width="320" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="MdP-y2-taH"/>
+                                    <constraint firstAttribute="height" constant="30" id="pJ0-kB-Gc0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="enL-KC-kPp">
+                                <rect key="frame" x="140" y="248" width="320" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="GUw-c2-tTa" firstAttribute="top" secondItem="ymh-nN-Wcs" secondAttribute="bottom" constant="32" id="Bac-tv-kuH"/>
+                            <constraint firstItem="fhn-la-r0t" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="S3n-oI-cyx"/>
+                            <constraint firstItem="ymh-nN-Wcs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="67" id="bl0-61-gTY"/>
+                            <constraint firstItem="GUw-c2-tTa" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="c70-Ei-baY"/>
+                            <constraint firstItem="fhn-la-r0t" firstAttribute="top" secondItem="GUw-c2-tTa" secondAttribute="bottom" constant="18" id="fPY-Ts-NIB"/>
+                            <constraint firstItem="ymh-nN-Wcs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gl0-0F-5J0"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="distanceTextField" destination="GUw-c2-tTa" id="bT0-Be-kf2"/>
+                        <outlet property="segmentedControl" destination="ymh-nN-Wcs" id="2a8-FP-83A"/>
+                        <outlet property="timeTextField" destination="fhn-la-r0t" id="Ulo-wR-N5j"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="305" y="372"/>
         </scene>
     </scenes>
 </document>
