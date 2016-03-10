@@ -10,13 +10,13 @@ import Foundation
 
 protocol Calculator {
     //    Speed = distance ÷ time m/s
-    func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(String,Double)>
+    func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:String,speed:Double)>
 }
 
 public class MetricCalculator:Calculator {
     
-    public var distance:Double
-    public var timeInSeconds:Double
+    public var distance:Double?
+    public var timeInSeconds:Double?
     
     public init(distance:Double,timeInSeconds:Double) {
         self.distance = distance
@@ -27,27 +27,34 @@ public class MetricCalculator:Calculator {
         return minutes * 60 + seconds;
     }
     
-    public func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(String,Double)> {
+    public func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:String,speed:Double)> {
         
         var distanceToCalc:Double
         var timeToCalc:Double
         
-        if distance == 0 || timeInSeconds == 0 {
-            distanceToCalc = self.distance
-            timeToCalc = self.timeInSeconds
+        if distance >= 0 || timeInSeconds <= 0 {
+            distanceToCalc = self.distance!
+            timeToCalc = self.timeInSeconds!
         }
         else {
             distanceToCalc = distance
             timeToCalc = timeInSeconds
         }
         
-        let resultInKm = distanceToCalc / timeToCalc
-        let resultInM = distanceToCalc / timeToCalc
+        guard distanceToCalc > 0 && timeToCalc > 0 else {
+           return[("Error - Enter positive value",-1)]
+        }
+        
+        if let resultInMeters:Double = distanceToCalc / timeToCalc {
+            return [
+                ("KM/s",resultInMeters*1000),
+                ("M/s",resultInMeters)
+            ]
+        }
+        else {
+            return[("Error",-1)]
+        }
 
-        return [
-            ("KM/s",resultInKm),
-            ("M/s",resultInM)
-        ]
     }
     
 }

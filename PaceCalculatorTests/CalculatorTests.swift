@@ -41,12 +41,33 @@ class CalculatorTests: XCTestCase {
         XCTAssert(calc.convertMinutesToSeconds(0, seconds: 0) == 0)
     }
     
+    func testConvertMinutesToSecondsWithDoubleValues() {
+        let calc = MetricCalculator(distance: 100.5,timeInSeconds: 100.5)
+        XCTAssert(calc.convertMinutesToSeconds(0, seconds: 0) == 0)
+    }
+    
     func testGetAverageSpeedResults() {
         let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
         let arr1 = calc.getAverageSpeedResults(0, timeInSeconds: 0)
-        XCTAssert(arr1[0].1 == 1)
+        XCTAssert(arr1[0].speed == 1000)
+        XCTAssert(arr1[1].speed == 1)
+
         let arr2 = calc.getAverageSpeedResults(200, timeInSeconds: 100)
-        XCTAssert(arr2[0].1 == 2)
+        XCTAssert(arr2[0].speed == 2000)
+        XCTAssert(arr2[1].speed == 2,"Err: \(arr1[1].speed)")
+        
     }
     
+    func testGetAverageSpeedResultZeroValues() {
+        let calc = MetricCalculator(distance: 0,timeInSeconds: 0)
+        let arr1 = calc.getAverageSpeedResults(0, timeInSeconds: 0)
+        XCTAssert(arr1[0].speed == -1,"Err: \(arr1[0].speed)")
+    }
+    
+    func testGetAverageSpeedResultMinusValues() {
+        let calc = MetricCalculator(distance: -10,timeInSeconds: -10)
+        let arr1 = calc.getAverageSpeedResults(0, timeInSeconds: 0)
+        XCTAssert(arr1[0].speed == -1,"Err: \(arr1[0].speed)")
+    }
+
 }
