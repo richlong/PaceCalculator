@@ -37,6 +37,11 @@
                BlueprintName = "PaceCalculatorTests"
                ReferencedContainer = "container:PaceCalculator.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "PaceCalculatorTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">
@@ -47,6 +52,11 @@
                BlueprintName = "PaceCalculatorUITests"
                ReferencedContainer = "container:PaceCalculator.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "PaceCalculatorUITests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

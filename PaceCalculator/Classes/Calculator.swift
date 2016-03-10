@@ -10,7 +10,15 @@ import Foundation
 
 protocol Calculator {
     //    Speed = distance ÷ time m/s
-    func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:String,speed:Double)>
+    func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:SpeedMeasurementType,speed:Double)>
+}
+
+public enum SpeedMeasurementType:String {
+    case INVALID = "INVALID"
+    case KMPH = "KMPH"
+    case MS = "MS"
+    case MPH = "MPH"
+    case FPS = "FPS"
 }
 
 public class MetricCalculator:Calculator {
@@ -27,12 +35,12 @@ public class MetricCalculator:Calculator {
         return minutes * 60 + seconds;
     }
     
-    public func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:String,speed:Double)> {
+    public func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:SpeedMeasurementType,speed:Double)> {
         
         var distanceToCalc:Double
         var timeToCalc:Double
         
-        if distance >= 0 || timeInSeconds <= 0 {
+        if distance <= 0 && timeInSeconds <= 0 {
             distanceToCalc = self.distance!
             timeToCalc = self.timeInSeconds!
         }
@@ -42,17 +50,17 @@ public class MetricCalculator:Calculator {
         }
         
         guard distanceToCalc > 0 && timeToCalc > 0 else {
-           return[("Error - Enter positive value",-1)]
+           return[(.INVALID,-1)]
         }
         
         if let resultInMeters:Double = distanceToCalc / timeToCalc {
             return [
-                ("KM/s",resultInMeters*1000),
-                ("M/s",resultInMeters)
+                (.KMPH,resultInMeters*1000),
+                (.MS,resultInMeters)
             ]
         }
         else {
-            return[("Error",-1)]
+            return[(.INVALID,-1)]
         }
 
     }
