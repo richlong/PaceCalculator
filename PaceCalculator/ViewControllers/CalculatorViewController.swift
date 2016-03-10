@@ -17,7 +17,9 @@ class CalculatorViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
+        
         // Do any additional setup after loading the view.
         
 //        let searchStrings = distanceTextField
