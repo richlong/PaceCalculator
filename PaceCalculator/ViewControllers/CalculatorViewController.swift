@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactiveCocoa
+import Regex
 
 class CalculatorViewController: UIViewController {
 
@@ -28,7 +29,7 @@ class CalculatorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
+//        let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
         
         distanceTextField.rac_textSignal()
             .filter({ (id input) -> Bool in
@@ -43,22 +44,28 @@ class CalculatorViewController: UIViewController {
                 }
             }
         
+        // Add observers for time textFields
+        
         secondsTextField.rac_textSignal()
             .filter({ (id input) -> Bool in
                 return input.length > 0 ? true : false
             })
             .subscribeNext {
                 (next:AnyObject!) -> () in
-                if let seconds:Double = next.doubleValue {
-                    if seconds > 0 {
-                        self.timeInSeconds? = seconds
+                
+                if self.isValidInput(next as! String) {
+                    if next.doubleValue >= 0 {
+                        self.timeInSeconds? = next.doubleValue
+                        self.secondsTextField.backgroundColor = UIColor .whiteColor()
                     }
                     else {
-                        self.timeInSeconds? = 0;
+                        self.timeInHours? = 0;
+                        self.secondsTextField.backgroundColor = UIColor .redColor()
                     }
                 }
                 else {
-                    self.timeInSeconds? = 0;
+                    self.timeInHours? = 0;
+                    self.secondsTextField.backgroundColor = UIColor .redColor()
                 }
                 self.calculateTimeInSeconds()
             }
@@ -69,43 +76,59 @@ class CalculatorViewController: UIViewController {
             })
             .subscribeNext {
                 (next:AnyObject!) -> () in
-                if let minutes:Double = next.doubleValue {
-                    if minutes > 0 {
-                        self.timeInMinutes? = minutes
-                    }
-                    else {
-                        self.timeInMinutes? = 0;
-                    }
-                }
-                else {
-                    self.timeInMinutes? = 0;
-                }
-                self.calculateTimeInSeconds()
-            }
-        
-        hoursTextField.rac_textSignal()
-            .filter({ (id input) -> Bool in
-                return input.length > 0 ? true : false
-            })
-            .subscribeNext {
-                (next:AnyObject!) -> () in
-                if let hours:Double = next.doubleValue {
-                    if hours > 0 {
-                        self.timeInHours? = hours
+                
+                if self.isValidInput(next as! String) {
+                    if next.doubleValue >= 0 {
+                        self.timeInMinutes? = next.doubleValue
+                        self.minutesTextField.backgroundColor = UIColor .whiteColor()
                     }
                     else {
                         self.timeInHours? = 0;
+                        self.minutesTextField.backgroundColor = UIColor .redColor()
                     }
                 }
                 else {
                     self.timeInHours? = 0;
+                    self.minutesTextField.backgroundColor = UIColor .redColor()
                 }
                 self.calculateTimeInSeconds()
-        }        
+
+            }
+        
+        hoursTextField.rac_textSignal()
+            .filter({ (String input) -> Bool in
+                return input.length > 0 ? true : false
+            })
+            .map { text in text as! String }
+            .subscribeNext { (next:AnyObject!) -> () in
+                
+                if self.isValidInput(next as! String) {
+                    if next.doubleValue >= 0 {
+                        self.timeInHours? = next.doubleValue
+                        self.hoursTextField.backgroundColor = UIColor .whiteColor()
+                    }
+                    else {
+                        self.timeInHours? = 0;
+                        self.hoursTextField.backgroundColor = UIColor .redColor()
+                    }
+                }
+                else {
+                    self.timeInHours? = 0;
+                    self.hoursTextField.backgroundColor = UIColor .redColor()
+                }
+                self.calculateTimeInSeconds()
+            }
     }
     
     func isValidDistance(distance:String) -> Bool {
         return  true
+    }
+    
+    func isValidInput(input:String) -> Bool {
+        //Checks regex for chars, if found then returns as invalid.
+        //Regex frame work doesn't appear to work when looking for 0-9
+        let result = input.grep("([A-Za-z])")
+        return result.boolValue ? false : true
     }
     
     func calculateTimeInSeconds() {
@@ -124,18 +147,7 @@ class CalculatorViewController: UIViewController {
             self.totalTimeInSeconds = self.totalTimeInSeconds! + hoursToSeconds
         }
         print(self.totalTimeInSeconds)
-
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

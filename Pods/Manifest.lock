@@ -10,13 +10,16 @@ PODS:
   - ReactiveCocoa/UI (4.0.1):
     - ReactiveCocoa/Core
     - Result (~> 1.0.2)
+  - Regex (0.3.0)
   - Result (1.0.2)
 
 DEPENDENCIES:
   - ReactiveCocoa
+  - Regex
 
 SPEC CHECKSUMS:
   ReactiveCocoa: f7011630aee4deeb16352fcb1b50d6bde9db4f90
+  Regex: 6bfb554ad7d5b1be9cfc57ab1fe2fb6cee45a344
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
 
 COCOAPODS: 0.39.0

@@ -6,6 +6,7 @@ use_frameworks!
 target 'PaceCalculator' do
 
 pod 'ReactiveCocoa'
+pod 'Regex'
 
 
 end

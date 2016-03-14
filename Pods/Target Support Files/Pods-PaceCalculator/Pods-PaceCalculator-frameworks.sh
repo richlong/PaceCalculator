@@ -85,9 +85,11 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-PaceCalculator/ReactiveCocoa.framework"
+  install_framework "Pods-PaceCalculator/Regex.framework"
   install_framework "Pods-PaceCalculator/Result.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-PaceCalculator/ReactiveCocoa.framework"
+  install_framework "Pods-PaceCalculator/Regex.framework"
   install_framework "Pods-PaceCalculator/Result.framework"
 fi
