@@ -20,27 +20,32 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var hoursTextField: UITextField!
     @IBOutlet weak var unitSegmentedControl: UISegmentedControl!
     
+    @IBOutlet weak var resultLabel: UILabel!
+    
     var totalDistance:Double? = 0
     var totalTimeInSeconds:Double? = 0
     var timeInSeconds:Double? = 0
     var timeInMinutes:Double? = 0
     var timeInHours:Double? = 0
+    var unitCalculator:Calculator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
-        
+        // Add observer for distance textFields
         distanceTextField.rac_textSignal()
             .filter({ (id input) -> Bool in
                 return input.length > 0 ? true : false
             })
             .subscribeNext {
             (next:AnyObject!) -> () in
-                if let distance:Double = next.doubleValue {
-                    if distance > 0 {
-                        print("distance: ",distance)
-                    }
+                if self.isValidInput(next as! String) {
+                    self.totalDistance? = next.doubleValue
+                    self.distanceTextField.backgroundColor = UIColor .whiteColor()
+                }
+                else {
+                    self.totalDistance? = 0;
+                    self.distanceTextField.backgroundColor = UIColor .redColor()
                 }
             }
         
@@ -54,14 +59,8 @@ class CalculatorViewController: UIViewController {
                 (next:AnyObject!) -> () in
                 
                 if self.isValidInput(next as! String) {
-                    if next.doubleValue >= 0 {
-                        self.timeInSeconds? = next.doubleValue
-                        self.secondsTextField.backgroundColor = UIColor .whiteColor()
-                    }
-                    else {
-                        self.timeInHours? = 0;
-                        self.secondsTextField.backgroundColor = UIColor .redColor()
-                    }
+                    self.timeInSeconds? = next.doubleValue
+                    self.secondsTextField.backgroundColor = UIColor .whiteColor()
                 }
                 else {
                     self.timeInHours? = 0;
@@ -78,14 +77,8 @@ class CalculatorViewController: UIViewController {
                 (next:AnyObject!) -> () in
                 
                 if self.isValidInput(next as! String) {
-                    if next.doubleValue >= 0 {
-                        self.timeInMinutes? = next.doubleValue
-                        self.minutesTextField.backgroundColor = UIColor .whiteColor()
-                    }
-                    else {
-                        self.timeInHours? = 0;
-                        self.minutesTextField.backgroundColor = UIColor .redColor()
-                    }
+                    self.timeInMinutes? = next.doubleValue
+                    self.minutesTextField.backgroundColor = UIColor .whiteColor()
                 }
                 else {
                     self.timeInHours? = 0;
@@ -103,14 +96,8 @@ class CalculatorViewController: UIViewController {
             .subscribeNext { (next:AnyObject!) -> () in
                 
                 if self.isValidInput(next as! String) {
-                    if next.doubleValue >= 0 {
-                        self.timeInHours? = next.doubleValue
-                        self.hoursTextField.backgroundColor = UIColor .whiteColor()
-                    }
-                    else {
-                        self.timeInHours? = 0;
-                        self.hoursTextField.backgroundColor = UIColor .redColor()
-                    }
+                    self.timeInHours? = next.doubleValue
+                    self.hoursTextField.backgroundColor = UIColor .whiteColor()
                 }
                 else {
                     self.timeInHours? = 0;
@@ -120,15 +107,20 @@ class CalculatorViewController: UIViewController {
             }
     }
     
-    func isValidDistance(distance:String) -> Bool {
-        return  true
-    }
     
     func isValidInput(input:String) -> Bool {
         //Checks regex for chars, if found then returns as invalid.
-        //Regex frame work doesn't appear to work when looking for 0-9
+        //Regex framework doesn't appear to work when looking for 0-9
         let result = input.grep("([A-Za-z])")
-        return result.boolValue ? false : true
+        if result.boolValue {
+            return false
+        }
+        
+        if Double(input) >= 0 {
+            return true
+        }
+        
+        return false
     }
     
     func calculateTimeInSeconds() {
@@ -147,7 +139,22 @@ class CalculatorViewController: UIViewController {
             self.totalTimeInSeconds = self.totalTimeInSeconds! + hoursToSeconds
         }
         print(self.totalTimeInSeconds)
+        self.outputConversion()
     }
     
+    func outputConversion() {
+        
+        if self.totalTimeInSeconds > 0 && self.totalDistance > 0 {
+            
+            self.unitCalculator = MetricCalculator(distance: self.totalDistance!, timeInSeconds: self.totalTimeInSeconds!)
+            if let result = self.unitCalculator?.getAverageSpeedResults(self.totalDistance!, timeInSeconds: self.timeInSeconds!) {
+                
+                self.resultLabel.text = String(result[0].speed,result[0].title.rawValue)
+                print(result[0])
+                
+            }
+        }
+        
+    }
 
 }
