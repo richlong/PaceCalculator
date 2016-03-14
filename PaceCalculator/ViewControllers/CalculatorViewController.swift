@@ -14,71 +14,117 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var distanceTextField: UITextField!
     @IBOutlet weak var timeTextField: UITextField!
-
+    @IBOutlet weak var secondsTextField: UITextField!
+    @IBOutlet weak var minutesTextField: UITextField!
+    @IBOutlet weak var hoursTextField: UITextField!
+    @IBOutlet weak var unitSegmentedControl: UISegmentedControl!
+    
+    var totalDistance:Double? = 0
+    var totalTimeInSeconds:Double? = 0
+    var timeInSeconds:Double? = 0
+    var timeInMinutes:Double? = 0
+    var timeInHours:Double? = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
         
-        // Do any additional setup after loading the view.
+        distanceTextField.rac_textSignal()
+            .filter({ (id input) -> Bool in
+                return input.length > 0 ? true : false
+            })
+            .subscribeNext {
+            (next:AnyObject!) -> () in
+                if let distance:Double = next.doubleValue {
+                    if distance > 0 {
+                        print("distance: ",distance)
+                    }
+                }
+            }
         
-//        let searchStrings = distanceTextField
-//            .rac_textSignal()
-//            .filter({ (String text) -> Bool in
-//                return text.length > 3 ? true : false
-//            })
-//            .map({ (text) -> AnyObject! in
-//                return isValidDistance(text)
-//            })
-//            .subscribeNext { (id x) -> Void in
-//                print(x)
-//        }
+        secondsTextField.rac_textSignal()
+            .filter({ (id input) -> Bool in
+                return input.length > 0 ? true : false
+            })
+            .subscribeNext {
+                (next:AnyObject!) -> () in
+                if let seconds:Double = next.doubleValue {
+                    if seconds > 0 {
+                        self.timeInSeconds? = seconds
+                    }
+                    else {
+                        self.timeInSeconds? = 0;
+                    }
+                }
+                else {
+                    self.timeInSeconds? = 0;
+                }
+                self.calculateTimeInSeconds()
+            }
         
-//        let searchStrings2 = timeTextField.rac_textSignal()
-//            .toSignalProducer()
-//            .map { text in text as! String}
-//        
-//        print(searchStrings)
-//        print(searchStrings2)
-//        
-//        var distanceSignal:RACSignal = self.distanceTextField
-//            .rac_textSignal()
-//            .map { (id text) -> AnyObject! in
-//                return isValidDistance(text)
-//        }
+        minutesTextField.rac_textSignal()
+            .filter({ (id input) -> Bool in
+                return input.length > 0 ? true : false
+            })
+            .subscribeNext {
+                (next:AnyObject!) -> () in
+                if let minutes:Double = next.doubleValue {
+                    if minutes > 0 {
+                        self.timeInMinutes? = minutes
+                    }
+                    else {
+                        self.timeInMinutes? = 0;
+                    }
+                }
+                else {
+                    self.timeInMinutes? = 0;
+                }
+                self.calculateTimeInSeconds()
+            }
         
-        //
-//        RACSignal *validUsernameSignal =
-//            [self.usernameTextField.rac_textSignal
-//                map:^id(NSString *text) {
-//                return @([self isValidUsername:text]);
-//                }];
-
-        
-//        [[validPasswordSignal
-//            map:^id(NSNumber *passwordValid) {
-//            return [passwordValid boolValue] ? [UIColor clearColor] : [UIColor yellowColor];
-//            }]
-//            subscribeNext:^(UIColor *color) {
-//            self.passwordTextField.backgroundColor = color;
-//            }];
-//        print(distanceSignal)
-        
-//        distanceSignal
-//        .map { (text) -> Void! in
-//            print(text)
-//        }
-
-//        [self.usernameTextField.rac_textSignal subscribeNext:^(id x) {
-//            NSLog(@"%@", x);
-//            }];
-
-
+        hoursTextField.rac_textSignal()
+            .filter({ (id input) -> Bool in
+                return input.length > 0 ? true : false
+            })
+            .subscribeNext {
+                (next:AnyObject!) -> () in
+                if let hours:Double = next.doubleValue {
+                    if hours > 0 {
+                        self.timeInHours? = hours
+                    }
+                    else {
+                        self.timeInHours? = 0;
+                    }
+                }
+                else {
+                    self.timeInHours? = 0;
+                }
+                self.calculateTimeInSeconds()
+        }        
     }
     
     func isValidDistance(distance:String) -> Bool {
-        print(distance)
         return  true
+    }
+    
+    func calculateTimeInSeconds() {
+        
+        self.totalTimeInSeconds? = 0;
+        
+        if let hoursToSeconds:Double = self.timeInHours! * 60 * 60 {
+            self.totalTimeInSeconds = self.totalTimeInSeconds! + hoursToSeconds
+        }
+        
+        if let minutesToSeconds:Double = self.timeInMinutes! * 60{
+            self.totalTimeInSeconds = self.totalTimeInSeconds! + minutesToSeconds
+        }
+        
+        if let hoursToSeconds:Double = self.timeInSeconds!{
+            self.totalTimeInSeconds = self.totalTimeInSeconds! + hoursToSeconds
+        }
+        print(self.totalTimeInSeconds)
+
     }
     
 

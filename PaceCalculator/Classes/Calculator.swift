@@ -10,10 +10,10 @@ import Foundation
 
 protocol Calculator {
     //    Speed = distance ÷ time m/s
-    func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:SpeedMeasurementType,speed:Double)>
+    func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:MeasurementUnit,speed:Double)>
 }
 
-public enum SpeedMeasurementType:String {
+public enum MeasurementUnit:String {
     case INVALID = "INVALID"
     case KMPH = "KMPH"
     case MS = "MS"
@@ -35,7 +35,7 @@ public class MetricCalculator:Calculator {
         return minutes * 60 + seconds;
     }
     
-    public func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:SpeedMeasurementType,speed:Double)> {
+    public func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:MeasurementUnit,speed:Double)> {
         
         var distanceToCalc:Double
         var timeToCalc:Double
