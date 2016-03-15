@@ -50,8 +50,39 @@ public class MetricCalculator:Calculator {
             return[(.INVALID,-1)]
         }
     }    
-
 }
+
+public class ImperialCalculator:Calculator {
+    
+    public var distance:Double?
+    public var timeInSeconds:Double?
+    
+    public init() {
+        self.distance = 0;
+        self.timeInSeconds = 0;
+    }
+    
+    public func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:MeasurementUnit,speed:Double)> {
+        
+        guard (distance > 0 || timeInSeconds > 0) else {
+            return[(.INVALID,-1)]
+        }
+        
+        if let resultInMeters:Double = distance / timeInSeconds {
+            
+            print("d",distance,"t",timeInSeconds, "res",resultInMeters)
+            
+            return [
+                (.KMPH,resultInMeters.convertMsToKmh()),
+                (.MS,resultInMeters.roundToPlaces(2))
+            ]
+        }
+        else {
+            return[(.INVALID,-1)]
+        }
+    }
+}
+
 
 extension Double {
     /// Rounds the double to decimal places value

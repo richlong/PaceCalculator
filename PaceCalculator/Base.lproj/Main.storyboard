@@ -24,6 +24,9 @@
                                     <segment title="Metric"/>
                                     <segment title="Imperial"/>
                                 </segments>
+                                <connections>
+                                    <action selector="changeMeasurementSystem:" destination="BYZ-38-t0r" eventType="valueChanged" id="ysQ-oh-1iR"/>
+                                </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="eh0-Q3-eyN">
                                 <rect key="frame" x="331" y="147" width="129" height="29"/>

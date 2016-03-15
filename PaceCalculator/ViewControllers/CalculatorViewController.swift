@@ -101,6 +101,18 @@ class CalculatorViewController: UIViewController {
 
     }
     
+    @IBAction func changeMeasurementSystem(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            self.unitCalculator = MetricCalculator()
+        case 1:
+            self.unitCalculator = ImperialCalculator()
+        default:
+            self.unitCalculator = MetricCalculator()
+        }
+        self.calculateTimeInSeconds()
+    }
+    
     @IBAction func changeMeasurementUnit(sender: UISegmentedControl) {
         
         switch sender.selectedSegmentIndex {
@@ -148,7 +160,6 @@ class CalculatorViewController: UIViewController {
         if let hoursToSeconds:Double = self.timeInSeconds!{
             self.totalTimeInSeconds = self.totalTimeInSeconds! + hoursToSeconds
         }
-        print("totalTimeInSeconds", self.totalTimeInSeconds)
         self.outputConversion()
     }
     
