@@ -21,52 +21,40 @@ class CalculatorTests: XCTestCase {
         super.tearDown()
     }
     
-    func testInitValusSavedAndCanUpdate() {
-        let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
-        XCTAssert(calc.distance == 100)
-        XCTAssert(calc.timeInSeconds == 100)
+    func testInitValuesSavedAndCanUpdate() {
+        let calc = MetricCalculator()
+        XCTAssert(calc.distance == 0)
+        XCTAssert(calc.timeInSeconds == 0)
         calc.distance = 200
         calc.timeInSeconds = 200
         XCTAssert(calc.distance == 200)
         XCTAssert(calc.timeInSeconds == 200)
     }
-    
-    func testConvertMinutesToSeconds() {
-        let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
-         XCTAssert(calc.convertMinutesToSeconds(10, seconds: 10) == 610)
-    }
-    
-    func testConvertMinutesToSecondsWithZeroValues() {
-        let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
-        XCTAssert(calc.convertMinutesToSeconds(0, seconds: 0) == 0)
-    }
-    
-    func testConvertMinutesToSecondsWithDoubleValues() {
-        let calc = MetricCalculator(distance: 100.5,timeInSeconds: 100.5)
-        XCTAssert(calc.convertMinutesToSeconds(0, seconds: 0) == 0)
-    }
-    
+
     func testGetAverageSpeedResults() {
-        let calc = MetricCalculator(distance: 100,timeInSeconds: 100)
+        let calc = MetricCalculator()
         let arr1 = calc.getAverageSpeedResults(0, timeInSeconds: 0)
-        XCTAssert(arr1[0].speed == 1000)
-        XCTAssert(arr1[1].speed == 1)
+        XCTAssert(arr1[0].title == MeasurementUnit.INVALID)
+        XCTAssert(arr1[0].speed == -1)
 
         let arr2 = calc.getAverageSpeedResults(200, timeInSeconds: 100)
-        XCTAssert(arr2[0].speed == 2000)
-        XCTAssert(arr2[1].speed == 2,"Err: \(arr1[1].speed)")
-        
+        XCTAssert(arr2[0].title == .KMPH)
+        XCTAssert(arr2[0].speed == 7.2,"Err: \(arr2[0].speed)")
+        XCTAssert(arr2[1].title == .MS)
+        XCTAssert(arr2[1].speed == 2,"Err: \(arr2[0].speed)")
     }
     
     func testGetAverageSpeedResultZeroValues() {
-        let calc = MetricCalculator(distance: 0,timeInSeconds: 0)
+        let calc = MetricCalculator()
         let arr1 = calc.getAverageSpeedResults(0, timeInSeconds: 0)
+        XCTAssert(arr1[0].title == MeasurementUnit.INVALID)
         XCTAssert(arr1[0].speed == -1,"Err: \(arr1[0].speed)")
     }
     
     func testGetAverageSpeedResultMinusValues() {
-        let calc = MetricCalculator(distance: -10,timeInSeconds: -10)
+        let calc = MetricCalculator()
         let arr1 = calc.getAverageSpeedResults(0, timeInSeconds: 0)
+        XCTAssert(arr1[0].title == MeasurementUnit.INVALID)
         XCTAssert(arr1[0].speed == -1,"Err: \(arr1[0].speed)")
     }
 

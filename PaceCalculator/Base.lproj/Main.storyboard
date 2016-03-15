@@ -25,7 +25,7 @@
                                     <segment title="Imperial"/>
                                 </segments>
                             </segmentedControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="eh0-Q3-eyN">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="eh0-Q3-eyN">
                                 <rect key="frame" x="331" y="147" width="129" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="129" id="DuS-uY-zUX"/>
@@ -34,6 +34,9 @@
                                     <segment title="Meters"/>
                                     <segment title="KM's"/>
                                 </segments>
+                                <connections>
+                                    <action selector="changeMeasurementUnit:" destination="BYZ-38-t0r" eventType="valueChanged" id="xfH-fH-mb4"/>
+                                </connections>
                             </segmentedControl>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Distance" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GUw-c2-tTa">
                                 <rect key="frame" x="140" y="147" width="183" height="30"/>

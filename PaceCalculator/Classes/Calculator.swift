@@ -26,44 +26,48 @@ public class MetricCalculator:Calculator {
     public var distance:Double?
     public var timeInSeconds:Double?
     
-    public init(distance:Double,timeInSeconds:Double) {
-        self.distance = distance
-        self.timeInSeconds = timeInSeconds
+    public init() {
+        self.distance = 0;
+        self.timeInSeconds = 0;
     }
-    
-    public func convertMinutesToSeconds(minutes:Int,seconds:Int) -> Int {
-        return minutes * 60 + seconds;
-    }
-    
+
     public func getAverageSpeedResults(distance:Double, timeInSeconds:Double) -> Array<(title:MeasurementUnit,speed:Double)> {
         
-        var distanceToCalc:Double
-        var timeToCalc:Double
-        
-        if distance <= 0 && timeInSeconds <= 0 {
-            distanceToCalc = self.distance!
-            timeToCalc = self.timeInSeconds!
-        }
-        else {
-            distanceToCalc = distance
-            timeToCalc = timeInSeconds
+        guard (distance > 0 || timeInSeconds > 0) else {
+            return[(.INVALID,-1)]
         }
         
-        guard distanceToCalc > 0 && timeToCalc > 0 else {
-           return[(.INVALID,-1)]
-        }
-        
-        if let resultInMeters:Double = distanceToCalc / timeToCalc {
+        if let resultInMeters:Double = distance / timeInSeconds {
+            
+            print("d",distance,"t",timeInSeconds, "res",resultInMeters)
+            
             return [
-                (.KMPH,resultInMeters*1000),
-                (.MS,resultInMeters)
+                (.KMPH,resultInMeters.convertMsToKmh()),
+                (.MS,resultInMeters.roundToPlaces(2))
             ]
         }
         else {
             return[(.INVALID,-1)]
         }
+    }    
 
+}
+
+extension Double {
+    /// Rounds the double to decimal places value
+    func roundToPlaces(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return round(self * divisor) / divisor
     }
     
+    func convertMsToKmh() -> Double{
+        return (self * 3600 / 1000).roundToPlaces(2)
+    }
+    
+    func convertKmhToMs() -> Double{
+        return (self / 3600 * 1000).roundToPlaces(2)
+    }
+
 }
+
 
