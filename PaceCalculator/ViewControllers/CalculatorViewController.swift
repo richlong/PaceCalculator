@@ -21,6 +21,8 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var unitSegmentedControl: UISegmentedControl!
     @IBOutlet weak var resultLabel: UILabel!
     
+    @IBOutlet weak var unitSegWidthConstraint: NSLayoutConstraint!
+    
     var totalDistance:Double? = 0
     var totalTimeInSeconds:Double? = 0
     var timeInSeconds:Double? = 0
@@ -33,6 +35,11 @@ class CalculatorViewController: UIViewController {
         super.viewDidLoad()
         
         addObserversToTextFields()
+        
+//        UIView.animateWithDuration(1.0, delay: 1.2, options: .CurveEaseOut, animations: {
+        
+
+
     }
     
     func addObserversToTextFields() {
@@ -102,15 +109,37 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func changeMeasurementSystem(sender: UISegmentedControl) {
+        
+        var segControlWidth:CGFloat = 150
+//        self.segmentedControl.setTitle("3", forSegmentAtIndex: 2)
+        
         switch sender.selectedSegmentIndex {
         case 0:
             self.unitCalculator = MetricCalculator()
+            self.unitSegmentedControl.setTitle("M/S", forSegmentAtIndex: 0)
+            self.unitSegmentedControl.setTitle("KMPH", forSegmentAtIndex: 1)
+
         case 1:
             self.unitCalculator = ImperialCalculator()
+            segControlWidth = 160;
+            self.unitSegmentedControl.setTitle("FPS", forSegmentAtIndex: 0)
+            self.unitSegmentedControl.setTitle("MPH", forSegmentAtIndex: 1)
+
         default:
             self.unitCalculator = MetricCalculator()
         }
         self.calculateTimeInSeconds()
+        
+        self.view.layoutIfNeeded()
+        
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+            self.unitSegWidthConstraint.constant = segControlWidth;
+            self.view.layoutIfNeeded()
+            }) { (finished) -> Void in
+                print("done")
+        }
+
+        
     }
     
     @IBAction func changeMeasurementUnit(sender: UISegmentedControl) {

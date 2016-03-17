@@ -43,21 +43,6 @@
                </Test>
             </SkippedTests>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "44D6F7C21C8F4B8800B37614"
-               BuildableName = "PaceCalculatorUITests.xctest"
-               BlueprintName = "PaceCalculatorUITests"
-               ReferencedContainer = "container:PaceCalculator.xcodeproj">
-            </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "PaceCalculatorUITests">
-               </Test>
-            </SkippedTests>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

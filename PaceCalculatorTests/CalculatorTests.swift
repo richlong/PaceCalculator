@@ -9,7 +9,7 @@
 import XCTest
 import PaceCalculator
 
-class CalculatorTests: XCTestCase {
+class MetricCalculatorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

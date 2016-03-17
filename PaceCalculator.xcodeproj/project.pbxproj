@@ -10,6 +10,7 @@
 		05812BB663732BF4F381C374 /* Pods_PaceCalculator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F73CA80D8FCCD89D6D478280 /* Pods_PaceCalculator.framework */; };
 		449D9F4F1C9172E400416357 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449D9F4E1C9172E400416357 /* Calculator.swift */; };
 		449D9F511C91744600416357 /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449D9F501C91744600416357 /* CalculatorTests.swift */; };
+		44C24DA21C9B442600450DC2 /* ImperialCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C24DA11C9B442600450DC2 /* ImperialCalculatorTests.swift */; };
 		44D6F7A81C8F4B8800B37614 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D6F7A71C8F4B8800B37614 /* AppDelegate.swift */; };
 		44D6F7AD1C8F4B8800B37614 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44D6F7AB1C8F4B8800B37614 /* Main.storyboard */; };
 		44D6F7AF1C8F4B8800B37614 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44D6F7AE1C8F4B8800B37614 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		449D9F4E1C9172E400416357 /* Calculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Calculator.swift; path = Classes/Calculator.swift; sourceTree = "<group>"; };
 		449D9F501C91744600416357 /* CalculatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorTests.swift; sourceTree = "<group>"; };
+		44C24DA11C9B442600450DC2 /* ImperialCalculatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImperialCalculatorTests.swift; sourceTree = "<group>"; };
 		44D6F7A41C8F4B8800B37614 /* PaceCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaceCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44D6F7A71C8F4B8800B37614 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44D6F7AC1C8F4B8800B37614 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		44D6F7BB1C8F4B8800B37614 /* PaceCalculatorTests */ = {
 			isa = PBXGroup;
 			children = (
+				44C24DA11C9B442600450DC2 /* ImperialCalculatorTests.swift */,
 				449D9F501C91744600416357 /* CalculatorTests.swift */,
 				44D6F7BC1C8F4B8800B37614 /* PaceCalculatorTests.swift */,
 				44D6F7BE1C8F4B8800B37614 /* Info.plist */,
@@ -349,6 +352,7 @@
 			files = (
 				44D6F7BD1C8F4B8800B37614 /* PaceCalculatorTests.swift in Sources */,
 				449D9F511C91744600416357 /* CalculatorTests.swift in Sources */,
+				44C24DA21C9B442600450DC2 /* ImperialCalculatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
