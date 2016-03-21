@@ -10,7 +10,7 @@ import UIKit
 import ReactiveCocoa
 import Regex
 
-class CalculatorViewController: UIViewController {
+class CalculatorViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSource {
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var distanceTextField: UITextField!
@@ -20,9 +20,8 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var hoursTextField: UITextField!
     @IBOutlet weak var unitSegmentedControl: UISegmentedControl!
     @IBOutlet weak var resultLabel: UILabel!
-    
     @IBOutlet weak var unitSegWidthConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var pickerView: UIPickerView!
     var totalDistance:Double? = 0
     var totalTimeInSeconds:Double? = 0
     var timeInSeconds:Double? = 0
@@ -30,17 +29,57 @@ class CalculatorViewController: UIViewController {
     var timeInHours:Double? = 0
     var unitCalculator:Calculator? = MetricCalculator()
     var activeUnit:MeasurementUnit? = MeasurementUnit.KMPH
-    
+    var metricPickerData = ["5k","10k","15k","21.1km","25k","42.2k"]
+    var imperialPickerData = ["5 Miles","10 Miles","15 Miles","25 Miles","50 Miles","100 Miles"]
+    var isUsingMetric = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         addObserversToTextFields()
         
-//        UIView.animateWithDuration(1.0, delay: 1.2, options: .CurveEaseOut, animations: {
+        // Connect data:
+        self.pickerView.delegate = self
+        self.pickerView.dataSource = self
         
+        _mainView.datePicker.rac_signalForControlEvents(.ValueChanged).toSignalProducer().startWithNext { (x) -> () in
+            guard let datePicker = x as? UIDatePicker else { return }
+            print("\(datePicker.date)")
+        }
 
+        
+        let action = #selector(pickerView.tappedButton)
+
+        let sel:Selector = "UIControlEventValueChanged:"
+
+        pickerView.r
+            .subscribeNext {
+                (next:AnyObject!) -> () in
+                
+                print("dsfd'")
+        }
 
     }
+    
+    func setPickerViewData() {
+        
+    }
+    
+    // The number of columns of data
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // The number of rows of data
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+       return self.isUsingMetric ?  self.metricPickerData.count :  self.imperialPickerData.count
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.isUsingMetric ?  self.metricPickerData[row] :  self.imperialPickerData[row]
+    }
+
     
     func addObserversToTextFields() {
         // Add observer for distance textFields
@@ -110,20 +149,22 @@ class CalculatorViewController: UIViewController {
     
     @IBAction func changeMeasurementSystem(sender: UISegmentedControl) {
         
-        var segControlWidth:CGFloat = 150
-//        self.segmentedControl.setTitle("3", forSegmentAtIndex: 2)
+        var segControlWidth:CGFloat = 180
         
+        //Toggle boolean
+        self.isUsingMetric = self.isUsingMetric ? false : true
+
         switch sender.selectedSegmentIndex {
         case 0:
             self.unitCalculator = MetricCalculator()
-            self.unitSegmentedControl.setTitle("M/S", forSegmentAtIndex: 0)
-            self.unitSegmentedControl.setTitle("KMPH", forSegmentAtIndex: 1)
+            self.unitSegmentedControl.setTitle("Meters", forSegmentAtIndex: 0)
+            self.unitSegmentedControl.setTitle("Kilometers", forSegmentAtIndex: 1)
 
         case 1:
             self.unitCalculator = ImperialCalculator()
-            segControlWidth = 160;
-            self.unitSegmentedControl.setTitle("FPS", forSegmentAtIndex: 0)
-            self.unitSegmentedControl.setTitle("MPH", forSegmentAtIndex: 1)
+            segControlWidth = 150;
+            self.unitSegmentedControl.setTitle("Yards", forSegmentAtIndex: 0)
+            self.unitSegmentedControl.setTitle("Miles", forSegmentAtIndex: 1)
 
         default:
             self.unitCalculator = MetricCalculator()
